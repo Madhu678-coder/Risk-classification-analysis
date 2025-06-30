@@ -2,8 +2,11 @@ from flask import Flask, render_template, request
 import numpy as np
 import joblib
 
-# Load trained model (only)
+# Load trained model
 model = joblib.load('best_final_model.pkl')
+
+# Define model accuracy (update this with your actual value from training)
+model_accuracy = 0.88  # 88% accuracy
 
 app = Flask(__name__)
 
@@ -14,29 +17,26 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Collect all input values from the form
+        # Collect inputs from form
         input_values = [float(x) for x in request.form.values()]
 
-        # Check if input count matches model's expected input
+        # Validate input feature count
         if len(input_values) != model.n_features_in_:
             return render_template(
                 'index1.html',
                 prediction=f"❌ Expected {model.n_features_in_} features but got {len(input_values)}."
             )
 
-        # No scaler — use raw input
         final_input = [input_values]
 
-        # Predict using model
+        # Predict
         prediction = model.predict(final_input)[0]
-        prob = model.predict_proba(final_input)[0][int(prediction)]
-
         result = 'Approved ✅' if prediction == 1 else 'Rejected ❌'
 
         return render_template(
             'index1.html',
             prediction=result,
-            probability=f"{prob * 100:.2f}%"
+            accuracy=f"{model_accuracy * 100:.2f}%"
         )
 
     except Exception as e:
