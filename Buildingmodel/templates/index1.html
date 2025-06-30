@@ -125,8 +125,8 @@
         {% if prediction %}
             <div class="result">
                 {{ prediction }}<br>
-                {% if probability %}
-                    probability: {{ probability }}
+                {% if accuracy %}
+                    Modelaccuracy: {{ accuracy }}
                 {% endif %}
             </div>
         {% endif %}
