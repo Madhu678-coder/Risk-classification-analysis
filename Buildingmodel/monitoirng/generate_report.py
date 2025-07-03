@@ -96,7 +96,7 @@ def run_evidently_drift_reports():
         mlflow.log_param("dataset", "Bank_Personal_Loan")
         mlflow.log_param("drift_report", "Old vs New")
 
-    print("✅ Both drift reports complete and logged to MLflow.")
+    print("Both drift reports complete and logged to MLflow.")
 
 # Run
 if __name__ == "__main__":
